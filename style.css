@@ -1,0 +1,30 @@
+.btn-selected {
+    color: #fff;
+    background-color: #f0ad4e;
+    border-color: #eea236;
+    height: 40px;
+    width: 200px;
+    margin-top: 10px;
+}
+
+.btn-not-selected {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    height: 40px;
+    width: 200px;
+    margin-top: 10px;
+}
+
+.floating-list{
+    list-style: none;
+    padding-bottom: 10px;
+    height:16px;
+
+}
+
+.floating-list>li{
+    position: relative;
+    display: inline-block;
+    margin-left: 10px;
+}

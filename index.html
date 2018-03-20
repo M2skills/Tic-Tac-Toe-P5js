@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>TIC TAC TOE</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.css">
+        <script src="libraries/p5.js" type="text/javascript"></script>
+        <script src="libraries/p5.dom.js" type="text/javascript"></script>
+        <script src="libraries/p5.sound.js" type="text/javascript"></script>
+        <script src="bootstrap/js/bootstrap.js" type="text/javascript"></script>
+        <script src="bootstrap/js/jquery-3.2.1.js" type="text/javascript"></script>
+    </head>
+
+    <body>
+    <div>
+
+        <div class="col-md-12" style="">
+            <h2 id = "#player1-type">Player 1</h2>
+            <div class="btn-group btn-group-justified">
+                <a href="#" class="btn btn-success" id = "p1-self">Play as Player 1</a>
+                <a href="#" class="btn btn-success" id = "p1-r1">Random Bot 1</a>
+                <a href="#" class="btn btn-success" id = "p1-r2">Random Bot 2</a>
+                <a href="#" class="btn btn-success" id = "p1-non-ai">Non AI Bot</a>
+                <a href="#" class="btn btn-success" id = "p1-ai">AI Bot</a>
+            </div>
+        </div>
+        <div class="col-md-12" style="">
+            <h2 id = "#player2-type">Player 2</h2>
+            <div class="btn-group btn-group-justified">
+                <a href="#" class="btn btn-primary" id = "p2-self">Play as Player 2</a>
+                <a href="#" class="btn btn-primary" id = "p2-r1">Random Bot 1</a>
+                <a href="#" class="btn btn-primary" id = "p2-r2">Random Bot 2</a>
+                <a href="#" class="btn btn-primary" id = "p2-non-ai">Non AI Bot</a>
+                <a href="#" class="btn btn-primary" id = "p2-ai">AI Bot</a>
+            </div>
+        </div>
+
+        <div class="col-md-12" style="">
+            <br>
+            <ul class = "floating-list" style="margin-left: 25%">
+
+                    <li>
+                        <button type="button" class="btn btn-not-selected" id = "start-game">Start Game</button>
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn-not-selected" id = "reset-game">Reset Game</button>
+                    </li>
+                    <li>
+                        <button type="button" class="btn btn-not-selected" id = "play-again">Play Again</button>
+                    </li>
+
+            </ul>
+        </div>
+
+    </div>
+
+
+    <br><br>
+
+        <script src="sketch.js" type="text/javascript"></script>
+        <style> body {padding: 0; margin: 0;} canvas {vertical-align: top; horiz-align: center; margin-top: 70px;} </style>
+
+        <script>
+            var player1_Set = false;
+            var player1_type = "";
+            var player2_Set = false;
+            var player2_type = "";
+
+            var p1_self = false, p1_random1 = false, p1_random2 = false, p1_ai = false, p1_non_ai = false;
+            var p2_self = false, p2_random1 = false, p2_random2 = false, p2_ai = false, p2_non_ai = false;
+
+            $(document).ready(function(){
+
+                $("#p1-self").click(function(){
+                    if (p1_self != true) {
+                        $(this).removeClass("btn-success").addClass("btn-warning");
+                        p1_self = true;
+                        $("#p1-ai").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-non-ai").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-r1").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-r2").removeClass("btn-warning").addClass("btn-success");
+                        p1_random1 = p1_random2 = p1_ai = p1_non_ai = false;
+                    } else {
+                        $(this).toggleClass("btn-success").toggleClass("btn-warning");
+                        p1_self = false;
+                    }
+                    console.log("player1 type = self selected");
+                    console.log("p1-self = " + p1_self);
+                });
+
+                $("#p1-r1").click(function(){
+                    if (p1_random1 != true) {
+                        $(this).removeClass("btn-success").addClass("btn-warning");
+                        p1_random1 = true;
+
+                        $("#p1-ai").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-non-ai").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-self").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-r2").removeClass("btn-warning").addClass("btn-success");
+                        p1_self = p1_random2 = p1_ai = p1_non_ai = false;
+                    } else {
+                        $(this).toggleClass("btn-success").toggleClass("btn-warning");
+                        p1_random1 = false;
+                    }
+                    console.log("player1 type = random bot 1 selected");
+                    console.log("p1-ai = " + p1_ai);
+                });
+
+                $("#p1-r2").click(function(){
+                    if (p1_random2 != true) {
+                        $(this).removeClass("btn-success").addClass("btn-warning");
+                        p1_random2 = true;
+
+                        $("#p1-ai").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-non-ai").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-r1").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-self").removeClass("btn-warning").addClass("btn-success");
+                        p1_self = p1_random1 = p1_ai = p1_non_ai = false;
+                    } else {
+                        $(this).toggleClass("btn-success").toggleClass("btn-warning");
+                        p1_random2 = false;
+                    }
+                    console.log("player1 type = random bot 2 selected");
+                    console.log("p1-random-2 = " + p1_random2);
+                });
+
+                $("#p1-ai").click(function(){
+                    if (p1_ai != true) {
+                        $(this).removeClass("btn-success").addClass("btn-warning");
+                        p1_ai = true;
+
+                        $("#p1-self").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-non-ai").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-r1").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-r2").removeClass("btn-warning").addClass("btn-success");
+                        p1_self = p1_random1 = p1_random2 = p1_non_ai = false;
+                    } else {
+                        $(this).toggleClass("btn-success").toggleClass("btn-warning");
+                        p1_ai = false;
+                    }
+                    console.log("player1 type = ai bot selected");
+                    console.log("p1-ai = " + p1_ai);
+                });
+
+                $("#p1-non-ai").click(function(){
+                    if (p1_non_ai != true) {
+                        $(this).removeClass("btn-success").addClass("btn-warning");
+                        p1_non_ai = true;
+
+                        $("#p1-ai").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-self").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-r1").removeClass("btn-warning").addClass("btn-success");
+                        $("#p1-r2").removeClass("btn-warning").addClass("btn-success");
+                        p1_self = p1_random1 = p1_ai = p1_random2 = false;
+                    } else {
+                        $(this).toggleClass("btn-success").toggleClass("btn-warning");
+                        p1_non_ai = false;
+                    }
+                    console.log("player1 type = non ai bot selected");
+                    console.log("p1-non-ai = " + p1_non_ai);
+                });
+
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                $("#p2-self").click(function(){
+                    if (p2_self != true) {
+                        $(this).removeClass("btn-success").addClass("btn-warning");
+                        p2_self = true;
+
+                        $("#p2-ai").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-non-ai").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-r1").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-r2").removeClass("btn-warning").addClass("btn-primary");
+                        p2_random1 = p2_random2 = p2_ai = p2_non_ai = false;
+                    } else {
+                        $(this).toggleClass("btn-primary").toggleClass("btn-warning");
+                        p2_self = false;
+                    }
+                    console.log("player2 type = self selected");
+                    console.log("p2-self = " + p2_self);
+                });
+
+                $("#p2-r1").click(function(){
+                    if (p2_random1 != true) {
+                        $(this).removeClass("btn-primary").addClass("btn-warning");
+                        p2_random1 = true;
+
+                        $("#p2-ai").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-non-ai").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-self").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-r2").removeClass("btn-warning").addClass("btn-primary");
+                        p2_self = p2_random2 = p2_ai = p2_non_ai = false;
+                    } else {
+                        $(this).toggleClass("btn-primary").toggleClass("btn-warning");
+                        p2_random1 = false;
+                    }
+                    console.log("player2 type = random bot 1  selected");
+                    console.log("p2-r1 = " + p2_random1);
+                });
+
+                $("#p2-r2").click(function(){
+                    if (p2_random2 != true) {
+                        $(this).removeClass("btn-primary").addClass("btn-warning");
+                        p2_random2 = true;
+
+                        $("#p2-ai").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-non-ai").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-r1").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-self").removeClass("btn-warning").addClass("btn-primary");
+                        p2_self = p2_random1 = p2_ai = p2_non_ai = false;
+                    } else {
+                        $(this).toggleClass("btn-primary").toggleClass("btn-warning");
+                        p2_random2 = false;
+                    }
+                    console.log("player2 type = random bot 2 selected");
+                    console.log("p2-r2 = " + p2_random2);
+                });
+
+                $("#p2-ai").click(function(){
+                    if (p2_ai != true) {
+                        $(this).removeClass("btn-primary").addClass("btn-warning");
+                        p2_ai = true;
+
+                        $("#p2-self").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-non-ai").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-r1").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-r2").removeClass("btn-warning").addClass("btn-primary");
+                        p2_self = p2_random1 = p2_random2 = p2_non_ai = false;
+                    } else {
+                        $(this).toggleClass("btn-primary").toggleClass("btn-warning");
+                        p2_ai = false;
+                    }
+                    console.log("player2 type = ai bot selected");
+                    console.log("p2-ai = " + p2_ai);
+                });
+
+                $("#p2-non-ai").click(function(){
+                    if (p2_non_ai != true) {
+                        $(this).removeClass("btn-primary").addClass("btn-warning");
+                        p2_non_ai = true;
+
+                        $("#p2-ai").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-self").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-r1").removeClass("btn-warning").addClass("btn-primary");
+                        $("#p2-r2").removeClass("btn-warning").addClass("btn-primary");
+                        p2_self = p2_random1 = p2_ai = p2_random2 = false;
+                    } else {
+                        $(this).toggleClass("btn-primary").toggleClass("btn-warning");
+                        p2_non_ai = false;
+                    }
+                    console.log("player2 type = non ai bot selected");
+                    console.log("p2-non-ai = " + p2_non_ai);
+                });
+            });
+        </script>
+    </body>
+</html>
+
